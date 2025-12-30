@@ -8,14 +8,19 @@ async function getAllusersBypagintion(req, res) {
         const limit = req.query.limit || 10 ;
         
         const skip = (page - 1) * limit ;
+        
 
         const users = await userSchema.find()
         .select("-password")
+        .where("role")
+        .ne("admin")
         .skip(skip)
         .limit(limit)
         .sort({createdAt : -1});
 
-        const totalUsers = await userSchema.countDocuments();
+        const totalUsers = await userSchema.countDocuments()
+        .where("role")
+        .ne("admin");
 
         res.status(200).json({
             message : "Users fetched successfully",
