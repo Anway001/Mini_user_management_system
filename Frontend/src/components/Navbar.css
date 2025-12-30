@@ -1,0 +1,99 @@
+/* Navbar Styles */
+.navbar {
+    background-color: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 0 20px;
+    height: 60px;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #6b21a8;
+    text-decoration: none;
+}
+
+.navbar-brand:hover {
+    color: #581c87;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-link {
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 8px 0;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    color: #6b21a8;
+    border-bottom-color: #6b21a8;
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.user-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.user-role {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: capitalize;
+}
+
+.user-role.admin {
+    background-color: #f3e8ff;
+    color: #6b21a8;
+}
+
+.user-role.user {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.logout-button {
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.logout-button:hover {
+    background-color: #f5f5f5;
+    color: #333;
+    border-color: #ccc;
+}

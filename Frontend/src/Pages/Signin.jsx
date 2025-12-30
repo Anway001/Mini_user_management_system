@@ -112,7 +112,7 @@ function Signin() {
                 password: confirmPassword
             })
             console.log(response)
-            navigate('/')
+            navigate('/login')
 
         }
         catch (error) {
