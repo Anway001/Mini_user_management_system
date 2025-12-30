@@ -34,14 +34,20 @@ async function isadminmiddleware(req, res, next) {
 }
 
 async function isactiveMiddleware(req, res, next) {
-    const user = await userSchema.findById(req.user.id);
-    if (!user) {
-        return res.status(401).json({ message: "Unauthorized" });
+
+    try{
+        const user = await userSchema.findById(req.user.id);
+        if (!user) {
+            return res.status(401).json({ message: "User not found" });
+        }
+        if (!user.isActive) {
+            return res.status(401).json({ message: "User is not active" });
+        }
+        next();
+    }catch (error) {
+        res.status(500).json({ message: "Internal Server Error" });
+        console.log(error);
     }
-    if (!user.isActive) {
-        return res.status(401).json({ message: "Unauthorized" });
-    }
-    next();
 }
 
 module.exports = {authMiddleware, isadminmiddleware, isactiveMiddleware};

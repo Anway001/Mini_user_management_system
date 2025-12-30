@@ -2,6 +2,7 @@ const express = require("express");
 const PORT = process.env.PORT || 8080;
 const authrouter = require("./Routers/auth.Router");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const adminrouter = require("./Routers/admin.Router");
 const userRouter = require("./Routers/user.Router");
 // Initialize express app
@@ -13,7 +14,7 @@ dotenv.config();
 
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(cors());
 
 // Connect to MongoDB
 const ConnectDB = require("./db/db");
