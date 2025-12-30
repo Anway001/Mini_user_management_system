@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { API_BASE_URL } from '../config'
 import Navbar from '../components/Navbar'
+import { useToast } from '../context/ToastContext'
 import './Profile.css'
 
 function Profile() {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    const { showToast } = useToast()
 
     // Edit profile state
     const [isEditing, setIsEditing] = useState(false)
@@ -23,10 +25,6 @@ function Profile() {
         newpassword: '',
         confirmPassword: ''
     })
-
-    // Messages
-    const [message, setMessage] = useState({ text: '', type: '' })
-    const [passwordMessage, setPasswordMessage] = useState({ text: '', type: '' })
 
     useEffect(() => {
         fetchProfile()
@@ -62,10 +60,9 @@ function Profile() {
 
     const handleSaveProfile = async (e) => {
         e.preventDefault()
-        setMessage({ text: '', type: '' })
 
         if (!editForm.password) {
-            setMessage({ text: 'Password is required to save changes', type: 'error' })
+            showToast('Password is required to save changes', 'error')
             return
         }
 
@@ -75,15 +72,12 @@ function Profile() {
                 editForm,
                 { withCredentials: true }
             )
-            setMessage({ text: 'Profile updated successfully', type: 'success' })
+            showToast('Profile updated successfully', 'success')
             setIsEditing(false)
             setEditForm(prev => ({ ...prev, password: '' }))
             fetchProfile()
         } catch (error) {
-            setMessage({
-                text: error.response?.data?.message || 'Failed to update profile',
-                type: 'error'
-            })
+            showToast(error.response?.data?.message || 'Failed to update profile', 'error')
         }
     }
 
@@ -94,25 +88,23 @@ function Profile() {
             email: user.email,
             password: ''
         })
-        setMessage({ text: '', type: '' })
     }
 
     const handleChangePassword = async (e) => {
         e.preventDefault()
-        setPasswordMessage({ text: '', type: '' })
 
         if (!passwordForm.oldpassword || !passwordForm.newpassword) {
-            setPasswordMessage({ text: 'All fields are required', type: 'error' })
+            showToast('All fields are required', 'error')
             return
         }
 
         if (passwordForm.newpassword !== passwordForm.confirmPassword) {
-            setPasswordMessage({ text: 'New passwords do not match', type: 'error' })
+            showToast('New passwords do not match', 'error')
             return
         }
 
         if (passwordForm.newpassword.length < 8) {
-            setPasswordMessage({ text: 'Password must be at least 8 characters', type: 'error' })
+            showToast('Password must be at least 8 characters', 'error')
             return
         }
 
@@ -125,14 +117,11 @@ function Profile() {
                 },
                 { withCredentials: true }
             )
-            setPasswordMessage({ text: 'Password changed successfully', type: 'success' })
+            showToast('Password changed successfully', 'success')
             setPasswordForm({ oldpassword: '', newpassword: '', confirmPassword: '' })
             setShowPasswordSection(false)
         } catch (error) {
-            setPasswordMessage({
-                text: error.response?.data?.message || 'Failed to change password',
-                type: 'error'
-            })
+            showToast(error.response?.data?.message || 'Failed to change password', 'error')
         }
     }
 
@@ -169,12 +158,6 @@ function Profile() {
                             </button>
                         )}
                     </div>
-
-                    {message.text && (
-                        <div className={`message ${message.type}`}>
-                            {message.text}
-                        </div>
-                    )}
 
                     {isEditing ? (
                         <form onSubmit={handleSaveProfile} className="edit-form">
@@ -256,12 +239,6 @@ function Profile() {
                         )}
                     </div>
 
-                    {passwordMessage.text && (
-                        <div className={`message ${passwordMessage.type}`}>
-                            {passwordMessage.text}
-                        </div>
-                    )}
-
                     {showPasswordSection && (
                         <form onSubmit={handleChangePassword} className="edit-form">
                             <div className="form-group">
@@ -304,7 +281,6 @@ function Profile() {
                                     onClick={() => {
                                         setShowPasswordSection(false)
                                         setPasswordForm({ oldpassword: '', newpassword: '', confirmPassword: '' })
-                                        setPasswordMessage({ text: '', type: '' })
                                     }}
                                 >
                                     Cancel

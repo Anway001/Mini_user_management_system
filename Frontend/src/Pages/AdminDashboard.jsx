@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { API_BASE_URL } from '../config'
 import Navbar from '../components/Navbar'
+import { useToast } from '../context/ToastContext'
 import './AdminDashboard.css'
 
 function AdminDashboard() {
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
-    const [totalPages, setTotalPages] = useState(1)
     const [totalUsers, setTotalUsers] = useState(0)
-
-    // Notification state
-    const [notification, setNotification] = useState({ show: false, message: '', type: '' })
+    const { showToast } = useToast()
 
     // Confirmation dialog state
     const [confirmDialog, setConfirmDialog] = useState({
@@ -40,17 +38,10 @@ function AdminDashboard() {
             setTotalUsers(response.data.totalUsers)
         } catch (error) {
             console.log('Error fetching users:', error)
-            showNotification('Failed to fetch users', 'error')
+            showToast('Failed to fetch users', 'error')
         } finally {
             setLoading(false)
         }
-    }
-
-    const showNotification = (message, type) => {
-        setNotification({ show: true, message, type })
-        setTimeout(() => {
-            setNotification({ show: false, message: '', type: '' })
-        }, 3000)
     }
 
     const openConfirmDialog = (userId, action, userName) => {
@@ -70,19 +61,19 @@ function AdminDashboard() {
                     {},
                     { withCredentials: true }
                 )
-                showNotification('User activated successfully', 'success')
+                showToast('User activated successfully', 'success')
             } else {
                 await axios.patch(
                     `${API_BASE_URL}/api/admin/users/${userId}/deactivate`,
                     {},
                     { withCredentials: true }
                 )
-                showNotification('User deactivated successfully', 'success')
+                showToast('User deactivated successfully', 'success')
             }
             fetchUsers(currentPage)
         } catch (error) {
             console.log('Error updating user:', error)
-            showNotification(error.response?.data?.message || 'Action failed', 'error')
+            showToast(error.response?.data?.message || 'Action failed', 'error')
         } finally {
             closeConfirmDialog()
         }
@@ -103,13 +94,6 @@ function AdminDashboard() {
                     <h1>Admin Dashboard</h1>
                     <p>Total Users: {totalUsers}</p>
                 </div>
-
-                {/* Notification */}
-                {notification.show && (
-                    <div className={`notification ${notification.type}`}>
-                        {notification.message}
-                    </div>
-                )}
 
                 {/* Users Table */}
                 <div className="table-container">

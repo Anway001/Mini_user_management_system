@@ -4,9 +4,11 @@ import './Signup.css'
 import './Login.css'
 import axios from 'axios'
 import { API_BASE_URL } from '../config'
+import { useToast } from '../context/ToastContext'
 
 function Signin() {
     const navigate = useNavigate()
+    const { showToast } = useToast()
 
     // Form state
     const [formData, setFormData] = useState({
@@ -18,7 +20,6 @@ function Signin() {
 
     // Error state
     const [errors, setErrors] = useState({})
-    const [serverError, setServerError] = useState('')
 
     // Handle input change
     const handleChange = (e) => {
@@ -94,7 +95,6 @@ function Signin() {
     // Handle form submit
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setServerError('')
 
         if (!validateForm()) {
             return
@@ -112,12 +112,13 @@ function Signin() {
                 password: confirmPassword
             })
             console.log(response)
+            showToast('Registration successful! Please login.', 'success')
             navigate('/login')
 
         }
         catch (error) {
             console.log(error)
-            setServerError(error.response.data.message)
+            showToast(error.response?.data?.message || 'Registration failed', 'error')
         }
     }
 
@@ -132,13 +133,6 @@ function Signin() {
                     <h2 className="signup-title">Create Account</h2>
                     <p className="signup-subtitle">Sign up to get started</p>
                 </div>
-
-                {/* Server Error Display */}
-                {serverError && (
-                    <div className="error-message server-error">
-                        {serverError}
-                    </div>
-                )}
 
                 {/* Signup Form */}
                 <form onSubmit={handleSubmit} className="signup-form" noValidate>

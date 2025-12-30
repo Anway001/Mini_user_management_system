@@ -1,444 +1,79 @@
 # Mini User Management System
 
-A full-stack user management application with authentication, role-based access control, and admin functionalities for managing user accounts.
+## Project Overview
+The Mini User Management System is a full-stack application designed to provide a secure and efficient way to manage user accounts. Its primary purpose is to allow users to register, log in, and manage their profiles, while providing administrators with a dashboard to monitor and control account statuses (activation/deactivation).
 
-## 📋 Project Overview & Purpose
-
-This application provides a complete user management solution featuring:
-
-- **User Authentication** - Register, login, and logout with JWT-based authentication
-- **Role-Based Access Control** - Separate user and admin roles with protected routes
-- **Admin Dashboard** - View, activate, and deactivate user accounts with pagination
-- **User Profile Management** - View and update profile information, change password
-- **Account Status Control** - Admins can activate/deactivate user accounts
-
----
-
-## 🛠️ Tech Stack
-
+## Tech Stack
 ### Backend
-| Technology | Purpose |
-|------------|---------|
-| **Node.js** | Runtime environment |
-| **Express.js** | Web application framework |
-| **MongoDB** | NoSQL database |
-| **Mongoose** | MongoDB object modeling |
-| **JWT** | JSON Web Token authentication |
-| **bcryptjs** | Password hashing |
-| **Joi** | Request validation |
-| **cookie-parser** | Cookie handling |
-| **cors** | Cross-origin resource sharing |
-| **dotenv** | Environment variable management |
+- Node.js
+- Express.js
+- MongoDB (with Mongoose)
+- JSON Web Token (JWT)
+- bcryptjs
+- Joi (for validation)
+- cookie-parser
 
 ### Frontend
-| Technology | Purpose |
-|------------|---------|
-| **React 19** | UI library |
-| **Vite** | Build tool and dev server |
-| **React Router DOM** | Client-side routing |
-| **Axios** | HTTP client |
+- React 19
+- Vite
+- React Router
+- Axios
 
----
-
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ### Prerequisites
-- Node.js (v18 or higher)
-- MongoDB (local installation or MongoDB Atlas)
-- npm or yarn
+- Node.js installed
+- MongoDB (local or Atlas) set up
 
 ### Backend Setup
-
-1. Navigate to the backend directory:
-   ```bash
-   cd Backend
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Create a `.env` file and configure environment variables (see [Environment Variables](#environment-variables))
-
-4. Start the development server:
-   ```bash
-   nodemon server.js
-   ```
-   
-   The backend server will run on `http://localhost:8080`
+1. Navigate to the `Backend` directory.
+2. Install dependencies: `npm install`.
+3. Create a `.env` file and add the required variables.
+4. Start the server: `npm run dev`.
 
 ### Frontend Setup
-
-1. Navigate to the frontend directory:
-   ```bash
-   cd Frontend
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
-   
-   The frontend will run on `http://localhost:5173`
-
----
-
-## 🔐 Environment Variables
-
-### Backend (`Backend/.env`)
-
-| Variable | Description |
-|----------|-------------|
-| `PORT` | Server port (default: 8080) |
-| `MONGODB_URI` | MongoDB connection string |
-| `JWT_SECRET` | Secret key for JWT token signing |
-
-### Frontend (`Frontend/src/.env`)
-
-| Variable | Description |
-|----------|-------------|
-| `VITE_API_URL` | Backend API base URL |
-
----
-
-## 🚀 Deployment Instructions
-
-### Backend Deployment
-
-1. **Build for production:**
-   ```bash
-   cd Backend
-   npm install --production
-   ```
-
-2. **Set environment variables** on your hosting platform (Heroku, Render, Railway, etc.)
-
-3. **Start command:**
-   ```bash
-   node server.js
-   ```
-
-### Frontend Deployment
-
-1. **Build for production:**
-   ```bash
-   cd Frontend
-   npm run build
-   ```
-
-2. **Deploy the `dist` folder** to any static hosting service (Vercel, Netlify, etc.)
-
-3. **Update CORS origins** in `Backend/server.js` to allow your production frontend URL
-
-### Deployment Checklist
-- [ ] Set all environment variables on the hosting platform
-- [ ] Update CORS configuration for production URLs
-- [ ] Ensure MongoDB is accessible from the production server
-- [ ] Set `secure: true` for cookies in production (HTTPS required)
-
----
-
-## 📚 API Documentation
-
-**Base URL:** `http://localhost:8080/api`
-
-### Authentication Endpoints
-
-#### Register User
-```http
-POST /api/auth/register
-```
-
-**Request Body:**
-```json
-{
-  "Fullname": "John Doe",
-  "email": "john@example.com",
-  "password": "password123",
-  "role": "user"
-}
-```
-
-**Success Response (201):**
-```json
-{
-  "message": "User registered successfully",
-  "user": {
-    "id": "64abc123...",
-    "email": "john@example.com",
-    "Fullname": "John Doe",
-    "role": "user"
-  },
-  "token": "eyJhbGciOiJIUzI1..."
-}
-```
-
-**Error Response (400):**
-```json
-{
-  "message": "User Already Exists"
-}
-```
-
----
-
-#### Login
-```http
-POST /api/auth/login
-```
-
-**Request Body:**
-```json
-{
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
-
-**Success Response (200):**
-```json
-{
-  "message": "Login successful",
-  "user": {
-    "id": "64abc123...",
-    "email": "john@example.com",
-    "Fullname": "John Doe"
-  },
-  "token": "eyJhbGciOiJIUzI1..."
-}
-```
-
-**Error Responses:**
-- `401` - Invalid credentials
-- `401` - User is Blocked by admin
-
----
-
-#### Logout
-```http
-POST /api/auth/logout
-```
-**Headers:** Requires authentication cookie
-
-**Success Response (200):**
-```json
-{
-  "message": "Logout successful"
-}
-```
-
----
-
-### User Endpoints
-
-> **Note:** All user endpoints require authentication (JWT cookie)
-
-#### Get User Profile
-```http
-GET /api/user/profile
-```
-
-**Success Response (200):**
-```json
-{
-  "message": "User found",
-  "user": {
-    "_id": "64abc123...",
-    "Fullname": "John Doe",
-    "email": "john@example.com",
-    "role": "user",
-    "isActive": true,
-    "createdAt": "2024-01-01T00:00:00.000Z",
-    "updatedAt": "2024-01-01T00:00:00.000Z"
-  }
-}
-```
-
----
-
-#### Update User Profile
-```http
-PATCH /api/user/profile
-```
-
-**Request Body:**
-```json
-{
-  "Fullname": "John Updated",
-  "email": "john.updated@example.com",
-  "password": "currentPassword123"
-}
-```
-
-**Success Response (200):**
-```json
-{
-  "message": "User updated successfully"
-}
-```
-
-**Error Response (401):**
-```json
-{
-  "message": "Invalid credentials"
-}
-```
-
----
-
-#### Change Password
-```http
-PATCH /api/user/changepassword
-```
-
-**Request Body:**
-```json
-{
-  "oldpassword": "currentPassword123",
-  "newpassword": "newSecurePassword456"
-}
-```
-
-**Success Response (200):**
-```json
-{
-  "message": "Password changed successfully"
-}
-```
-
-**Error Responses:**
-- `400` - All fields are required
-- `400` - New password cannot be same as old password
-- `401` - Invalid credentials
-
----
-
-### Admin Endpoints
-
-> **Note:** All admin endpoints require authentication + admin role + active status
-
-#### Get All Users (Paginated)
-```http
-GET /api/admin/getAllusers?page=1&limit=10
-```
-
-**Query Parameters:**
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `page` | number | 1 | Page number |
-| `limit` | number | 10 | Users per page |
-
-**Success Response (200):**
-```json
-{
-  "message": "Users fetched successfully",
-  "users": [
-    {
-      "_id": "64abc123...",
-      "Fullname": "John Doe",
-      "email": "john@example.com",
-      "role": "user",
-      "isActive": true,
-      "createdAt": "2024-01-01T00:00:00.000Z"
-    }
-  ],
-  "totalUsers": 25,
-  "currentPage": 1,
-  "totalPages": 3
-}
-```
-
----
-
-#### Activate User
-```http
-PATCH /api/admin/users/:id/activate
-```
-
-**Success Response (200):**
-```json
-{
-  "message": "User activated successfully"
-}
-```
-
-**Error Response (404):**
-```json
-{
-  "message": "User not found"
-}
-```
-
----
-
-#### Deactivate User
-```http
-PATCH /api/admin/users/:id/deactivate
-```
-
-**Success Response (200):**
-```json
-{
-  "message": "User deactivated successfully"
-}
-```
-
-**Error Response (404):**
-```json
-{
-  "message": "User not found"
-}
-```
-
----
-
-## 📁 Project Structure
-
-```
-Mini User Management System/
-├── Backend/
-│   ├── Controllers/
-│   │   ├── admin.Controller.js
-│   │   ├── auth.Controller.js
-│   │   └── user.Controller.js
-│   ├── Middleware/
-│   │   └── auth.Middleware.js
-│   ├── Models/
-│   │   └── user.Schema.js
-│   ├── Routers/
-│   │   ├── admin.Router.js
-│   │   ├── auth.Router.js
-│   │   └── user.Router.js
-│   ├── db/
-│   │   └── db.js
-│   ├── .env
-│   ├── package.json
-│   └── server.js
-│
-└── Frontend/
-    ├── src/
-    │   ├── Pages/
-    │   ├── components/
-    │   ├── assets/
-    │   ├── App.jsx
-    │   ├── App.css
-    │   └── main.jsx
-    ├── package.json
-    └── vite.config.js
-```
-
----
-
-## 📝 License
-
-ISC License
-
-## 👤 Author
-
-Anway Kharsammble
+1. Navigate to the `Frontend` directory.
+2. Install dependencies: `npm install`.
+3. Create a `.env` file in the `src` directory and add the required variables.
+4. Start the application: `npm run dev`.
+
+## Environment Variables
+
+### Backend (.env)
+- `PORT`: Port number for the server.
+- `MONGODB_URI`: Connection string for the MongoDB database.
+- `JWT_SECRET`: Secret key used for signing JWT tokens.
+
+### Frontend (.env)
+- `VITE_API_URL`: The base URL for the Backend API.
+
+## Deployment Instructions
+The application is configured for deployment on platforms like Vercel and Render.
+
+### Deployment Steps
+1. **Frontend:** Deployed on Vercel. Connect the repository, set the build command to `npm run build`, and the output directory to `dist`. Add the necessary environment variables.
+2. **Backend:** Can be deployed on Render or Heroku. Connect the repository, set the start command to `node server.js`, and add the environment variables.
+3. Update the CORS configuration in the Backend (`server.js`) to include the production Frontend URL.
+
+## API Documentation
+
+### Authentication
+- `POST /api/auth/register`: Register a new user.
+  - **Request:** `{ "Fullname": "Name", "email": "email@example.com", "password": "pass", "role": "user" }`
+  - **Response (201):** `{ "message": "User registered successfully", "user": { ... } }`
+- `POST /api/auth/login`: Login and receive a JWT in a cookie.
+  - **Request:** `{ "email": "email@example.com", "password": "pass" }`
+  - **Response (200):** `{ "message": "Login successful", "user": { ... } }`
+- `POST /api/auth/logout`: Logout and clear the authentication cookie.
+
+### User Management
+- `GET /api/user/profile`: Retrieve the authenticated user's profile.
+- `PATCH /api/user/profile`: Update user profile details.
+  - **Request:** `{ "Fullname": "New Name", ... }`
+- `PATCH /api/user/changepassword`: Update the user's password.
+  - **Request:** `{ "oldpassword": "...", "newpassword": "..." }`
+
+### Admin Operations
+- `GET /api/admin/getAllusers`: Fetch a paginated list of all users.
+- `PATCH /api/admin/users/:id/activate`: Activate a specific user account.
+- `PATCH /api/admin/users/:id/deactivate`: Deactivate a specific user account.

@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './Login.css'
 import { API_BASE_URL } from '../config'
+import { useToast } from '../context/ToastContext'
 
 function Login() {
     const navigate = useNavigate()
+    const { showToast } = useToast()
 
     // Form state
     const [formData, setFormData] = useState({
@@ -15,7 +17,6 @@ function Login() {
 
     // Error state
     const [errors, setErrors] = useState({})
-    const [serverError, setServerError] = useState('')
 
     // Handle input change
     const handleChange = (e) => {
@@ -56,7 +57,6 @@ function Login() {
     // Handle form submit
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setServerError('')
 
         if (!validateForm()) {
             return
@@ -68,7 +68,7 @@ function Login() {
             const response = await axios.post(`${API_BASE_URL}/api/auth/login`, {
                 email,
                 password
-            },{
+            }, {
                 withCredentials: true
             })
             console.log(response)
@@ -77,10 +77,11 @@ function Login() {
             } else {
                 navigate('/dashboard')
             }
-            
+            showToast('Login successful!', 'success')
+
         } catch (error) {
             const errorResponse = error.response.data;
-            setServerError(errorResponse.message);
+            showToast(errorResponse.message || 'Login failed', 'error')
         }
     }
 
@@ -92,13 +93,6 @@ function Login() {
                     <h2 className="login-title">Welcome Back</h2>
                     <p className="login-subtitle">Sign in to your account</p>
                 </div>
-
-                {/* Server Error Display */}
-                {serverError && (
-                    <div className="error-message server-error">
-                        {serverError}
-                    </div>
-                )}
 
                 {/* Login Form */}
                 <form onSubmit={handleSubmit} className="login-form" noValidate>
