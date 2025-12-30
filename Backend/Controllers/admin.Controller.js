@@ -32,7 +32,7 @@ async function getAllusersBypagintion(req, res) {
 
     } catch (error) {
         res.status(500).json({message : "Internal Server Error"});
-        console.log(error);
+
     }
 }
 
@@ -51,7 +51,7 @@ async function activateUsers(req, res) {
         res.status(200).json({message : "User activated successfully"});
     } catch (error) {
         res.status(500).json({message : "Internal Server Error"});
-        console.log(error);
+
     }
 }
 
@@ -70,7 +70,7 @@ async function deactivateUsers(req, res) {
         res.status(200).json({message : "User deactivated successfully"});
     } catch (error) {
         res.status(500).json({message : "Internal Server Error"});
-        console.log(error);
+
     }
 }
 
