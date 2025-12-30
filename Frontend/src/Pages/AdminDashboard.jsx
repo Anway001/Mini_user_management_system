@@ -10,6 +10,13 @@ function AdminDashboard() {
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalUsers, setTotalUsers] = useState(0)
+    const [totalPages, setTotalPages] = useState(1)
+
+    // Debugging ReferenceError
+    useEffect(() => {
+        console.log('AdminDashboard mounted. totalPages:', totalPages)
+    }, [totalPages])
+
     const { showToast } = useToast()
 
     // Confirmation dialog state
