@@ -117,7 +117,18 @@
     }
 
     .user-info {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .user-name {
         display: none;
+    }
+
+    .user-role {
+        font-size: 0.7rem;
+        padding: 2px 6px;
     }
 
     .logout-button {
