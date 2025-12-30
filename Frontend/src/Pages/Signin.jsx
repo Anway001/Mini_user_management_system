@@ -241,7 +241,7 @@ function Signin() {
                 <div className="signup-footer">
                     <p className="footer-text">
                         Already have an account?{' '}
-                        <Link to="/" className="footer-link">
+                        <Link to="/login" className="footer-link">
                             Sign in here
                         </Link>
                     </p>

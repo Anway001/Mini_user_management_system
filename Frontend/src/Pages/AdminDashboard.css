@@ -260,3 +260,48 @@
 .dialog-btn.confirm.deactivate:hover {
     background-color: #b91c1c;
 }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 16px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .users-table {
+        min-width: 600px;
+    }
+
+    .users-table th,
+    .users-table td {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+    }
+
+    .role-badge,
+    .status-badge {
+        padding: 3px 8px;
+        font-size: 0.7rem;
+    }
+
+    .action-btn {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+
+    .pagination {
+        gap: 10px;
+    }
+
+    .page-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}

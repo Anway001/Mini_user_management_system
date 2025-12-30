@@ -97,3 +97,41 @@
     color: #333;
     border-color: #ccc;
 }
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 12px;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .navbar-links {
+        gap: 12px;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+    }
+
+    .user-info {
+        display: none;
+    }
+
+    .logout-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-links {
+        gap: 8px;
+    }
+
+    .nav-link {
+        font-size: 0.75rem;
+    }
+}

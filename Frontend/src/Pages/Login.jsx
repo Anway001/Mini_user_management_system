@@ -72,7 +72,11 @@ function Login() {
                 withCredentials: true
             })
             console.log(response)
-            navigate('/dashboard')
+            if (response.data.role === 'admin') {
+                navigate('/admin')
+            } else {
+                navigate('/dashboard')
+            }
             
         } catch (error) {
             const errorResponse = error.response.data;
