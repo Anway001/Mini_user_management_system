@@ -197,15 +197,6 @@ function Signin() {
                             placeholder="Create a password"
                             autoComplete="new-password"
                         />
-                        {/* Password Strength Indicator */}
-                        {passwordStrength && !errors.password && (
-                            <div className={`password-strength ${passwordStrength.level}`}>
-                                <div className="strength-bar">
-                                    <div className={`strength-fill ${passwordStrength.level}`}></div>
-                                </div>
-                                <span className="strength-text">{passwordStrength.text}</span>
-                            </div>
-                        )}
                         {errors.password && (
                             <span className="error-text">{errors.password}</span>
                         )}
