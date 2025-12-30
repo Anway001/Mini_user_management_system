@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "\t"
+    "test": "\t",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "anway kharsammble",
   "license": "ISC",
