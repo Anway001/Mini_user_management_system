@@ -16,7 +16,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
     {
-        origin : ["http://localhost:5173","https://mini-user-management-system-gules.vercel.app/"],
+        origin : ["http://localhost:5173"
+            ,"https://mini-user-management-system-gules.vercel.app/"],
         credentials : true
     }
 ));
