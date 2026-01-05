@@ -1,0 +1,24 @@
+services:
+    frontend:
+        build: ./Frontend
+        ports:
+            - "5173:5173"
+        env_file:
+            - ./Frontend/.env
+        networks:
+            - mern
+    backend:
+        build: ./Backend
+        ports:
+            - "8080:8080"
+        env_file:
+            - ./Backend/.env
+        networks:
+            - mern
+networks:
+    mern:
+        driver: bridge
+      
+
+
+            
